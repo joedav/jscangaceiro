@@ -1,10 +1,15 @@
 // client/app/app.js
 
 // instanciando negociacao controller
-let controller = new NegociacaoController();
+const controller = new NegociacaoController();
+// alias
+const $ = document.querySelector.bind(document);
 
 // associando o evento de submissão do form á chamada de método "adiciona"
+$(".form").addEventListener("submit", controller.adiciona.bind(controller));
 
-document
-  .querySelector(".form")
-  .addEventListener("submit", controller.adiciona.bind(controller));
+// botao apagar
+$("#botao-apaga").addEventListener("click", controller.apaga.bind(controller));
+
+// botão importa negociações
+$("#botao-importa").addEventListener("click", controller.importaNegociacoes.bind(controller));

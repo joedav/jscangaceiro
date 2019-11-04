@@ -1,15 +1,23 @@
 // client/app/domain/negociacao/Negociacao.js
 class Negociacao {
-  constructor(_data = new Date(), _quantidade = 0, _valor = 0.0) {
+  constructor(_data, _quantidade, _valor) {
     /*
     this._data = new Date(data.getTime()); // data atual
     this._quantidade = qtd; // quantidade
     this._valor = valor; // valor*/
     // Object.assign() , esse objeto será modificado ganhando as propriedades de um ou mais objetos de origem passados como parâmetro
-    Object.assign(this, { _quantidade, _valor });
+    Object.assign(this, {
+      _quantidade,
+      _valor
+    });
     this._data = new Date(_data.getTime());
     // congelando o objeto assim que for instanciado
     Object.freeze(this);
+  }
+
+  // método equals para comparação de dois objetos iguais
+  equals(negociacao) {
+    return JSON.stringify(this) == JSON.stringify(negociacao); // stringfy converte um objeto em string
   }
 
   // método que realiza o calculo do volume

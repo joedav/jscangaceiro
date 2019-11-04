@@ -2,68 +2,78 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>Negociações</title>
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.css">
-
+  <meta charset="UTF-8">
+  <title>Negociações</title>
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/bootstrap-theme.css">
 </head>
 
 <body class="container">
 
-    <h1 class="text-center">Negociações</h1>
+  <h1 class="text-center">Negociações</h1>
 
-    <form class="form">
+  <!-- a mensagem será mostrada aqui -->
+  <div id="mensagemView"></div>
 
-        <div class="form-group">
-            <label for="data">Data</label>
-            <input type="date" id="data" class="form-control" required autofocus />
-        </div>
+  <form class="form">
 
-        <div class="form-group">
-            <label for="quantidade">Quantidade</label>
-            <input type="number" min="1" step="1" id="quantidade" class="form-control" required placeholder="15" />
-        </div>
-
-        <div class="form-group">
-            <label for="valor">Valor</label>
-            <input id="valor" type="number" class="form-control" min="0.01" step="0.01" required placeholder="15,00" />
-        </div>
-
-        <button class="btn btn-primary" type="submit">Incluir</button>
-    </form>
-
-    <div class="text-center">
-        <button id="botao-importa" class="btn btn-primary text-center" type="button">
-            Importar Negociações
-        </button>
-        <button id="botao-apaga" class="btn btn-primary text-center" type="button">
-            Apagar
-        </button>
+    <div class="form-group">
+      <label for="data">Data</label>
+      <input type="text" id="data" class="form-control" required autofocus />
     </div>
-    <br>
-    <br>
 
-    <table class="table table-hover table-bordered">
-        <thead>
-            <tr>
-                <th>DATA</th>
-                <th>QUANTIDADE</th>
-                <th>VALOR</th>
-                <th>VOLUME</th>
-            </tr>
-        </thead>
+    <div class="form-group">
+      <label for="quantidade">Quantidade</label>
+      <input type="number" min="1" step="1" id="quantidade" class="form-control" required placeholder="15" />
+    </div>
 
-        <tbody>
-        </tbody>
+    <div class="form-group">
+      <label for="valor">Valor</label>
+      <input id="valor" type="number" class="form-control" min="0.01" step="0.01" required placeholder="15,00" />
+    </div>
 
-        <tfoot>
-        </tfoot>
-    </table>
+    <button class="btn btn-primary" type="submit">Incluir</button>
+  </form>
 
-    <script src="app/domain/negociaccao/Negociacao.js"></script>
-    <script src="app/controllers/NegociacaoController.js"></script>
-    <script src="app/app.js"></script>
+  <div class="text-center">
+    <button id="botao-importa" class="btn btn-primary text-center" type="button">
+      Importar Negociações
+    </button>
+    <button id="botao-apaga" class="btn btn-primary text-center" type="button">
+      Apagar
+    </button>
+  </div>
+  <br>
+  <br>
+  <div id="negociacoes"></div>
+
+  <script src="app/domain/negociaccao/Negociacoes.js"></script>
+  <script src="app/domain/negociaccao/Negociacao.js"></script>
+  <script src="app/controllers/NegociacaoController.js"></script>
+  <script src="app/ui/converters/DateConverter.js"></script>
+
+  <!-- referenciando a classe view antes pois a view negociacao e mensagem dependerá dela -->
+  <script src="app/ui/views/View.js"></script>
+  <!-- referencia o script da mensagem -->
+  <script src="app/ui/models/Mesagem.js"></script>
+  <!-- referenciando mensagem view -->
+  <script src="app/ui/views/MensagemView.js"></script>
+  <!-- negociacoes view -->
+  <script src="app/ui/views/NegociacoesView.js"></script>
+
+  <!-- bind -->
+  <script src="app/util/Bind.js"></script>
+  <!-- ProxyFactory -->
+  <script src="app/util/ProxyFactory.js"></script>
+
+  <!-- exceptions -->
+  <script src="app/util/ApplicationException.js"></script>
+  <script src="app/ui/converters/DataInvalidaException.js"></script>
+  <!-- NegociacaoService -->
+  <script src="app/domain/negociaccao/NegociacaoService.js"></script>
+  <!-- httpservice-->
+  <script src="app/util/HttpService.js"></script>
+  <script src="app/app.js"></script>
 </body>
 
 </html>
