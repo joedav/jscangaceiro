@@ -47,33 +47,15 @@
   <br>
   <div id="negociacoes"></div>
 
-  <script src="app/domain/negociaccao/Negociacoes.js"></script>
-  <script src="app/domain/negociaccao/Negociacao.js"></script>
-  <script src="app/controllers/NegociacaoController.js"></script>
-  <script src="app/ui/converters/DateConverter.js"></script>
+  <!-- importa a biblioteca do system.js -->
+  <script src="node_modules/systemjs/dist/system.js"></script>
 
-  <!-- referenciando a classe view antes pois a view negociacao e mensagem dependerá dela -->
-  <script src="app/ui/views/View.js"></script>
-  <!-- referencia o script da mensagem -->
-  <script src="app/ui/models/Mesagem.js"></script>
-  <!-- referenciando mensagem view -->
-  <script src="app/ui/views/MensagemView.js"></script>
-  <!-- negociacoes view -->
-  <script src="app/ui/views/NegociacoesView.js"></script>
-
-  <!-- bind -->
-  <script src="app/util/Bind.js"></script>
-  <!-- ProxyFactory -->
-  <script src="app/util/ProxyFactory.js"></script>
-
-  <!-- exceptions -->
-  <script src="app/util/ApplicationException.js"></script>
-  <script src="app/ui/converters/DataInvalidaException.js"></script>
-  <!-- NegociacaoService -->
-  <script src="app/domain/negociaccao/NegociacaoService.js"></script>
-  <!-- httpservice-->
-  <script src="app/util/HttpService.js"></script>
-  <script src="app/app.js"></script>
+  <!-- indica qual será o primeiro módulo -->
+  <script>
+    System
+      .import('app/app.js')
+      .catch(err => console.error(err));
+  </script>
 </body>
 
 </html>

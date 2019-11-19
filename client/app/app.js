@@ -1,15 +1,28 @@
-// client/app/app.js
+System.register(["./controllers/NegociacaoController.js"], function (_export, _context) {
+  "use strict";
 
-// instanciando negociacao controller
-const controller = new NegociacaoController();
-// alias
-const $ = document.querySelector.bind(document);
+  var NegociacaoController;
+  return {
+    setters: [function (_controllersNegociacaoControllerJs) {
+      NegociacaoController = _controllersNegociacaoControllerJs.NegociacaoController;
+    }],
+    execute: function () {
 
-// associando o evento de submissão do form á chamada de método "adiciona"
-$(".form").addEventListener("submit", controller.adiciona.bind(controller));
+      // instanciando negociacao controller
+      const controller = new NegociacaoController();
+      // alias
+      // client/app/app.js
+      const $ = document.querySelector.bind(document);
 
-// botao apagar
-$("#botao-apaga").addEventListener("click", controller.apaga.bind(controller));
+      // associando o evento de submissão do form á chamada de método "adiciona"
+      $(".form").addEventListener("submit", controller.adiciona.bind(controller));
 
-// botão importa negociações
-$("#botao-importa").addEventListener("click", controller.importaNegociacoes.bind(controller));
+      // botao apagar
+      $("#botao-apaga").addEventListener("click", controller.apaga.bind(controller));
+
+      // botão importa negociações
+      $("#botao-importa").addEventListener("click", controller.importaNegociacoes.bind(controller));
+    }
+  };
+});
+//# sourceMappingURL=app.js.map

@@ -1,5 +1,4 @@
-// client/app/domain/negociacao/Negociacao.js
-class Negociacao {
+export class Negociacao {
   constructor(_data, _quantidade, _valor) {
     /*
     this._data = new Date(data.getTime()); // data atual
@@ -9,7 +8,7 @@ class Negociacao {
     Object.assign(this, {
       _quantidade,
       _valor
-    });
+    })
     this._data = new Date(_data.getTime());
     // congelando o objeto assim que for instanciado
     Object.freeze(this);

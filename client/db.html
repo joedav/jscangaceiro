@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-Br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Aprendendo IndexedDB</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  let conn = null;
+
+  // requisitando abertura da conexão com indexedDB
+  const openRequest = indexedDB.open("jscangaceiro", 2);
+  // o método open recebe dois parametros, o nome do banco que iremos nos 
+  // conectar e o segundo indica a versão do banco
+  // o retorno do método open é uma instancia de IDBOpenDBRequest: requisição de abertura da conexão
+  // sempre que trabalhamos com uma requisição de abertura precisaremos lidar com uma 
+  // triade de eventos: onupgradeneeded, onsuccess, on error
+
+  openRequest.onupgradeneeded = e => {
+    console.log("Cria ou altera um banco de dados já existente");
+
+    conn = e.target.result;
+
+    // verificamos se o store já existe
+    if (conn.objectStoreNames.contains("negociacoes")) {
+      conn.deleteObjectStore("negociacoes"); // caso exista ele será apagado
+    }
+    conn.createObjectStore("negociacoes", {
+      autoIncrement: true
+    }); // e aqui ele será criado como auto increment
+  };
+  openRequest.onsuccess = e => {
+    console.log("Conexão obtida com sucesso")
+
+    conn = e.target.result; // variavel guarda uma referencia da nossa conexão
+  };
+  openRequest.onerror = e => console.log(e.target.error);
+
+  function adiciona() {
+    const negociacao = new Negociacao(new Date(), 200, 1); // nova instancia de negociacao
+
+    // encadeando as chamadas
+    const request = conn.transaction(["negociacoes"], "readwrite").objectStore("negociacoes").add(negociacao);
+
+    /*const transaction = conn.transaction(["negociacoes"],
+      "readwrite"); // iniciamos uma transação informando o objectStore(table) e o tipo (readwrite) 
+    // caso quisessemos somente leitura basta 'readonly'
+    const store = transaction.objectStore("negociacoes");
+
+    // requisitando a inserção do objeto negociacao
+    const request = store.add(negociacao);*/
+
+    // para sabermos se a requisição foi bem sucedida necessitamos dos metodos onsuccess e onerror
+    request.onsuccess = e => console.log("Negociação inserida com sucesso!");
+    request.onerror = e => console.log("Erro ao salvar no indexedDB: " + e.target.error);
+  }
+
+  function listaTodos() {
+
+    const negociacoes = [];
+
+    const cursor = conn.transaction(['negociacoes'], 'readwrite')
+      .objectStore('negociacoes')
+      .openCursor();
+
+    let i = 0;
+    cursor.onsuccess = e => {
+
+      // objeto ponteiro de uma negociacao
+      const atual = e.target.result;
+
+
+      // se for diferente de null, é por que há dados no objeto
+      if (atual) {
+
+        // cria uma instancia de negociacao
+        const negociacao = new Negociacao(
+          atual.value._data,
+          atual.value._quantidade,
+          atual.value._valor
+        );
+
+        // atual.value guarda os dados da negociação
+        negociacoes.push(negociacao);
+
+        // vai para a próxima posição chamando onsucess novamente
+        atual.continue();
+
+      } else {
+
+        // quando atual for null, é porque não há mais dados
+
+        // será impresso a lista de negociacoes no console
+        console.log(negociacoes);
+      }
+    };
+
+    cursor.onerror = e => {
+      // error.name, para ficar mais sucinta a informação
+
+      console.log("Error: " + e.target.error.name);
+    };
+  }
+</script>
+<script src="app/domain/negociaccao/Negociacao.js"></script>
+
+</html>
