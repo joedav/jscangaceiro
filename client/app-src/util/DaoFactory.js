@@ -1,10 +1,10 @@
 // importações
 import {
   ConnectionFactory
-} from './ConnectionFactory.js';
+} from './ConnectionFactory';
 import {
   NegociacaoDao
-} from '../domain/negociacao/NegociacaoDao.js'
+} from '../domain/negociacao/NegociacaoDao'
 
 // O método getNegociacaoDao() retorna uma Promise que, ao ser
 // resolvida, nos dá acesso a uma instância de NegociacaoDao

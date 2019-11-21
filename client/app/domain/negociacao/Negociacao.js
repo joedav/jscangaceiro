@@ -1,16 +1,15 @@
-System.register([], function (_export, _context) {
+System.register(["../../util/index.js"], function (_export, _context) {
   "use strict";
 
+  var obrigatorio;
   return {
-    setters: [],
+    setters: [function (_utilIndexJs) {
+      obrigatorio = _utilIndexJs.obrigatorio;
+    }],
     execute: function () {
       let Negociacao = class Negociacao {
-        constructor(_data, _quantidade, _valor) {
-          /*
-          this._data = new Date(data.getTime()); // data atual
-          this._quantidade = qtd; // quantidade
-          this._valor = valor; // valor*/
-          // Object.assign() , esse objeto será modificado ganhando as propriedades de um ou mais objetos de origem passados como parâmetro
+        constructor(_data = obrigatorio("data"), _quantidade = obrigatorio("quantidade"), _valor = obrigatorio("valor")) {
+
           Object.assign(this, {
             _quantidade,
             _valor

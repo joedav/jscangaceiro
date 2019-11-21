@@ -1,7 +1,7 @@
 System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], function (_export, _context) {
   "use strict";
 
-  var Negociacoes, NegociacaoService, Negociacao, NegociacoesView, MensagemView, Mensagem, DateConverter, getNegociacaoDao, Bind, getExceptionMessage, debounce;
+  var Negociacoes, NegociacaoService, Negociacao, NegociacoesView, MensagemView, Mensagem, DateConverter, getNegociacaoDao, Bind, getExceptionMessage, debounce, controller, bindEvent;
   return {
     setters: [function (_domainIndexJs) {
       Negociacoes = _domainIndexJs.Negociacoes;
@@ -17,6 +17,8 @@ System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], fu
       Bind = _utilIndexJs.Bind;
       getExceptionMessage = _utilIndexJs.getExceptionMessage;
       debounce = _utilIndexJs.debounce;
+      controller = _utilIndexJs.controller;
+      bindEvent = _utilIndexJs.bindEvent;
     }],
     execute: function () {
       function _asyncToGenerator(fn) {
@@ -77,16 +79,16 @@ System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], fu
         return desc;
       }
 
-      var _dec, _desc, _value, _class;
+      var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class, _desc, _value, _class2;
 
-      let NegociacaoController = (_dec = debounce(), (_class = class NegociacaoController {
-        constructor() {
-          // $ é o query selector (.bind(document)) siginifica que continuaremos utilizando o documento no contexto desta variavel
-          const $ = document.querySelector.bind(document);
-          // obtendo os elementos
-          this._inputData = $("#data");
-          this._inputQuantidade = $("#quantidade");
-          this._inputValor = $("#valor"); // a criação dos input no construtor é para criar apenas uma vez
+      let NegociacaoController = (_dec = controller('#data', '#quantidade', '#valor'), _dec2 = bindEvent('submit', '.form'), _dec3 = debounce(), _dec4 = bindEvent("click", "#botao-importa"), _dec5 = debounce(), _dec6 = bindEvent("click", "#botao-apaga"), _dec(_class = (_class2 = class NegociacaoController {
+        constructor(_inputData, _inputQuantidade, _inputValor) {
+
+          Object.assign(this, {
+            _inputData,
+            _inputQuantidade,
+            _inputValor
+          });
 
           // negociacoes
           this._negociacoes = new Bind(new Negociacoes(), new NegociacoesView('#negociacoes'),
@@ -250,6 +252,7 @@ System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], fu
         }
 
         // metodo apaga para limpar os registros da table
+
         apaga() {
           var _this4 = this;
 
@@ -267,7 +270,7 @@ System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], fu
             }
           })();
         }
-      }, (_applyDecoratedDescriptor(_class.prototype, 'importaNegociacoes', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'importaNegociacoes'), _class.prototype)), _class));
+      }, (_applyDecoratedDescriptor(_class2.prototype, 'adiciona', [_dec2, _dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'adiciona'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'importaNegociacoes', [_dec4, _dec5], Object.getOwnPropertyDescriptor(_class2.prototype, 'importaNegociacoes'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'apaga', [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, 'apaga'), _class2.prototype)), _class2)) || _class);
 
       _export('NegociacaoController', NegociacaoController);
     }

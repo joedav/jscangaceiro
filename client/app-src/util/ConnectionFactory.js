@@ -28,7 +28,7 @@ export class ConnectionFactory {
 
       // variável da abertura da connection
       // indicando o banco e a versão como parametros
-      const openRequest = indexedDB.open("jscangaceiro", 2);
+      const openRequest = indexedDB.open("jscangaceiro", 4);
 
       // open onupgradeneeded
       openRequest.onupgradeneeded = e => {

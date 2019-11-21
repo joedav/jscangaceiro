@@ -1,32 +1,31 @@
 import {
   Negociacoes,
-  NegociacaoService,
   Negociacao
-} from '../domain/index.js';
-// removeu DataInvalidaException
+} from '../domain';
 import {
   NegociacoesView,
   MensagemView,
   Mensagem,
   DateConverter
-}
-from '../ui/index.js';
-// importou getExceptionMessage
+} from '../ui';
 import {
   getNegociacaoDao,
   Bind,
   getExceptionMessage,
-  debounce
-} from '../util/index.js';
+  debounce,
+  controller,
+  bindEvent
+} from '../util';
 
+@controller('#data', '#quantidade', '#valor')
 export class NegociacaoController {
-  constructor() {
-    // $ é o query selector (.bind(document)) siginifica que continuaremos utilizando o documento no contexto desta variavel
-    const $ = document.querySelector.bind(document);
-    // obtendo os elementos
-    this._inputData = $("#data");
-    this._inputQuantidade = $("#quantidade");
-    this._inputValor = $("#valor"); // a criação dos input no construtor é para criar apenas uma vez
+  constructor(_inputData, _inputQuantidade, _inputValor) {
+
+    Object.assign(this, {
+      _inputData,
+      _inputQuantidade,
+      _inputValor
+    });
 
     // negociacoes
     this._negociacoes = new Bind(
@@ -53,7 +52,7 @@ export class NegociacaoController {
     // this._mensagemView = new MensagemView("#mensagemView");
     // this._mensagemView.update(this._mensagem);
     // instancia NegociacaoService
-    this._service = new NegociacaoService();
+    // this._service = new NegociacaoService();
 
     this._init();
   }
@@ -81,6 +80,8 @@ export class NegociacaoController {
       .catch(err => this._mensagem.texto = err);*/
   }
 
+  @bindEvent('submit', '.form')
+  @debounce()
   async adiciona(event) {
 
     try {
@@ -116,12 +117,21 @@ export class NegociacaoController {
     }
   }
 
+  @bindEvent("click", "#botao-importa")
   @debounce()
   // importar negiociações
   async importaNegociacoes() {
 
     try {
-      const negociacoes = await this._service.obtemNegociacoesDoPeriodo();
+      // lazyload
+      const {
+        NegociacaoService
+      } = await import("../domain/negociacao/NegociacaoService");
+
+      // criando instancia de negociacao service
+      const service = new NegociacaoService();
+
+      const negociacoes = await service.obtemNegociacoesDoPeriodo();
 
       console.log(negociacoes);
       negociacoes.filter(novaNegociacao =>
@@ -191,6 +201,7 @@ export class NegociacaoController {
   }
 
   // metodo apaga para limpar os registros da table
+  @bindEvent("click", "#botao-apaga")
   async apaga() {
     /* this._negociacoes.esvazia();
     // this._negociacoesView.update(this._negociacoes);
